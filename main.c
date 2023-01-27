@@ -94,15 +94,13 @@ int main()
 	printf("\nTempo total Quick Sort: %f \n", total);
 
 	/* Heap Sort Test */
-	/* criaVetor(vetor, tamVetor);
-	imprimeVetor(vetor, 10);
+	criaVetor(vetor, tamVetor);
 	start = clock();
 	numComp = heapSort(vetor, tamVetor);
 	end = clock();
 	total = ((double)end - start) / CLOCKS_PER_SEC;
 	printf("\n");
-	imprimeVetor(vetor, 10);
-	printf("\nTempo total Heap Sort: %f \n", total); */
+	printf("\nTempo total Heap Sort: %f \n", total);
 
 	printf("\n-----------Vetor Ordenado---------\n");
 	/* Busca Sequencial Test */

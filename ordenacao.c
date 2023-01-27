@@ -108,7 +108,22 @@ int partition(int arr[], int low, int high)
 	return (i + 1);
 }
 
-/* Funções Recursivas */
+/* Funções principais */
+
+/* -------------- Funções BUSCA Sequencial -------------- */
+int buscaSequencial(int vetor[], int tam, int valor, int *numComparacoes)
+{
+	(*numComparacoes)++;
+	if (tam == 0)
+		return -1;
+	if (vetor[tam - 1] == valor)
+	{
+		(*numComparacoes)++;
+		return tam - 1;
+	}
+	return buscaSequencial(vetor, tam - 1, valor, numComparacoes);
+}
+/* -------------- Funções BUSCA BINÁRIA -------------- */
 int buscaBinariaRecursiva(int vetor[], int esquerda, int direita, int valor, int *numComparacoes)
 {
 	if (esquerda > direita)
@@ -131,6 +146,24 @@ int buscaBinariaRecursiva(int vetor[], int esquerda, int direita, int valor, int
 	}
 }
 
+int buscaBinaria(int vetor[], int tam, int valor, int *numComparacoes)
+{
+	return buscaBinariaRecursiva(vetor, 0, tam, valor, numComparacoes);
+}
+
+/* -------------- Funções INSETION SORT -------------- */
+int insertionSort(int vetor[], int tam)
+{
+	if (0 >= tam)
+	{
+		return 1;
+	}
+	insertionSort(vetor, tam - 1);
+	insereVetor(vetor, tam - 1);
+	return 1;
+}
+
+/* -------------- Funções SELECTION SORT -------------- */
 int selectionSortRecursive(int vetor[], int n, int index)
 {
 	if (index == n)
@@ -149,6 +182,12 @@ int selectionSortRecursive(int vetor[], int n, int index)
 	return selectionSortRecursive(vetor, n, index + 1);
 }
 
+int selectionSort(int vetor[], int tam)
+{
+	return selectionSortRecursive(vetor, tam, 0);
+}
+
+/* -------------- Funções MERGE SORT -------------- */
 int mergeSortRecursive(int vetor[], int l, int r)
 {
 	if (l >= r)
@@ -163,6 +202,12 @@ int mergeSortRecursive(int vetor[], int l, int r)
 	return 0;
 }
 
+int mergeSort(int vetor[], int tam)
+{
+	return mergeSortRecursive(vetor, 0, tam);
+}
+
+/* -------------- Funções QUICK SORT -------------- */
 int quickSortRecursive(int arr[], int low, int high)
 {
 	if (low < high)
@@ -175,53 +220,45 @@ int quickSortRecursive(int arr[], int low, int high)
 	return -1;
 }
 
-/* Funções principais */
-int buscaSequencial(int vetor[], int tam, int valor, int *numComparacoes)
-{
-	(*numComparacoes)++;
-	if (tam == 0)
-		return -1;
-	if (vetor[tam - 1] == valor)
-	{
-		(*numComparacoes)++;
-		return tam - 1;
-	}
-	return buscaSequencial(vetor, tam - 1, valor, numComparacoes);
-}
-
-int buscaBinaria(int vetor[], int tam, int valor, int *numComparacoes)
-{
-	return buscaBinariaRecursiva(vetor, 0, tam, valor, numComparacoes);
-}
-
-int insertionSort(int vetor[], int tam)
-{
-	if (0 >= tam)
-	{
-		return 1;
-	}
-	insertionSort(vetor, tam - 1);
-	insereVetor(vetor, tam - 1);
-	return 1;
-}
-
-int selectionSort(int vetor[], int tam)
-{
-	return selectionSortRecursive(vetor, tam, 0);
-}
-
-int mergeSort(int vetor[], int tam)
-{
-	return mergeSortRecursive(vetor, 0, tam);
-}
-
 int quickSort(int vetor[], int tam)
 {
 	return quickSortRecursive(vetor, 0, tam);
 }
-/*
+
+/* -------------- Funções HEAP SORT -------------- */
+void heapify(int vetor[], int tam, int i)
+{
+	int maior = i;
+	int l = 2 * i + 1;
+	int r = 2 * i + 2;
+
+	if (l < tam && vetor[l] > vetor[maior])
+		maior = l;
+
+	if (r < tam && vetor[r] > vetor[maior])
+		maior = r;
+
+	if (maior != i)
+	{
+		int swap = vetor[i];
+		vetor[i] = vetor[maior];
+		vetor[maior] = swap;
+
+		heapify(vetor, tam, maior);
+	}
+}
+
 int heapSort(int vetor[], int tam)
 {
-	vetor[0] = 99;
-	return -1;
-} */
+	int i;
+	for (i = tam / 2 - 1; i >= 0; i--)
+		heapify(vetor, tam, i);
+
+	for (i = tam - 1; i >= 0; i--)
+	{
+		swap(&vetor[0], &vetor[i]);
+		heapify(vetor, i, 0);
+	}
+
+	return 1;
+}
