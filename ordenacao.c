@@ -49,53 +49,46 @@ int right(int i)
 	return ((2 * i) + 2);
 }
 
-int *merge(int vetor[], int l, int m, int r, int *numComparacoes)
+int *merge(int vetor[], int esq, int m, int dir, int *numComparacoes)
 {
 	int i, j, k;
-	int n1 = m - l + 1;
-	int n2 = r - m;
-
-	int L[n1], R[n2];
+	int n1 = m - esq + 1;
+	int n2 = dir - m;
+	int vetorEsq[n1], vetorDir[n2];
 
 	for (i = 0; i < n1; i++)
-	{
-		L[i] = vetor[l + i];
-	}
+		vetorEsq[i] = vetor[esq + i];
 	for (j = 0; j < n2; j++)
-	{
-		R[j] = vetor[m + 1 + j];
-	}
+		vetorDir[j] = vetor[m + 1 + j];
 
 	i = 0;
 	j = 0;
-	k = l;
+	k = esq;
 	while (i < n1 && j < n2)
 	{
-		if (L[i] <= R[j])
+		if (vetorEsq[i] <= vetorDir[j])
 		{
 			(*numComparacoes)++;
-			vetor[k] = L[i];
+			vetor[k] = vetorEsq[i];
 			i++;
 		}
 		else
 		{
 			(*numComparacoes)++;
-			vetor[k] = R[j];
+			vetor[k] = vetorDir[j];
 			j++;
 		}
 		k++;
 	}
-
 	while (i < n1)
 	{
-		vetor[k] = L[i];
+		vetor[k] = vetorEsq[i];
 		i++;
 		k++;
 	}
-
 	while (j < n2)
 	{
-		vetor[k] = R[j];
+		vetor[k] = vetorDir[j];
 		j++;
 		k++;
 	}
@@ -103,12 +96,12 @@ int *merge(int vetor[], int l, int m, int r, int *numComparacoes)
 	return numComparacoes;
 }
 
-int partition(int vetor[], int low, int high, int *numComparacoes)
+int parcionamento(int vetor[], int a, int b, int *numComparacoes)
 {
-	int pivo = vetor[high];
-	int i = (low - 1);
+	int pivo = vetor[b];
+	int i = (a - 1);
 
-	for (int j = low; j <= high - 1; j++)
+	for (int j = a; j <= b - 1; j++)
 	{
 		if (vetor[j] <= pivo)
 		{
@@ -117,7 +110,8 @@ int partition(int vetor[], int low, int high, int *numComparacoes)
 		}
 		(*numComparacoes)++;
 	}
-	swap(&vetor[i + 1], &vetor[high]);
+	swap(&vetor[i + 1], &vetor[b]);
+
 	return (i + 1);
 }
 
@@ -134,12 +128,12 @@ int buscaSequencial(int vetor[], int tam, int valor, int *numComparacoes)
 	return buscaSequencial(vetor, tam - 1, valor, numComparacoes);
 }
 /* -------------- Funções BUSCA BINÁRIA -------------- */
-int buscaBinariaRecursiva(int vetor[], int esquerda, int direita, int valor, int *numComparacoes)
+int buscaBinariaRecursiva(int vetor[], int esq, int dir, int valor, int *numComparacoes)
 {
-	if (esquerda > direita)
+	if (esq > dir)
 		return -1;
 
-	int meio = esquerda + (direita - esquerda) / 2;
+	int meio = esq + (dir - esq) / 2;
 
 	(*numComparacoes)++;
 	if (vetor[meio] == valor)
@@ -147,12 +141,12 @@ int buscaBinariaRecursiva(int vetor[], int esquerda, int direita, int valor, int
 	else if (vetor[meio] > valor)
 	{
 		(*numComparacoes)++;
-		return buscaBinariaRecursiva(vetor, esquerda, meio - 1, valor, numComparacoes);
+		return buscaBinariaRecursiva(vetor, esq, meio - 1, valor, numComparacoes);
 	}
 	else
 	{
 		(*numComparacoes)++;
-		return buscaBinariaRecursiva(vetor, meio + 1, direita, valor, numComparacoes);
+		return buscaBinariaRecursiva(vetor, meio + 1, dir, valor, numComparacoes);
 	}
 }
 
@@ -226,14 +220,14 @@ int mergeSort(int vetor[], int tam)
 }
 
 /* -------------- Funções QUICK SORT -------------- */
-int quickSortRecursive(int arr[], int low, int high, int *numComparacoes)
+int quickSortRecursive(int vetor[], int a, int b, int *numComparacoes)
 {
-	if (low < high)
+	if (a < b)
 	{
-		int pi = partition(arr, low, high, numComparacoes);
+		int pi = parcionamento(vetor, a, b, numComparacoes);
 
-		quickSortRecursive(arr, low, pi - 1, numComparacoes);
-		quickSortRecursive(arr, pi + 1, high, numComparacoes);
+		quickSortRecursive(vetor, a, pi - 1, numComparacoes);
+		quickSortRecursive(vetor, pi + 1, b, numComparacoes);
 	}
 	return *numComparacoes;
 }

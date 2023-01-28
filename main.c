@@ -32,7 +32,7 @@ int main()
 	clock_t start, end;
 	double total;
 
-	int tamVetor = 100000; /* se colocar um valor muito alto aqui, os números de comparação no terminal vão ficar negativos por estourarem o valor máximo permitido do int, 65000 foi o maior valor que eu encontrei sem deixar os números de comparações negativos */
+	int tamVetor = 65000; /* se colocar um valor muito alto aqui, os números de comparação no terminal vão ficar negativos por estourarem o valor máximo permitido do int, 65000 foi o maior valor que eu encontrei sem deixar os números de comparações negativos */
 	int *vetor = malloc(tamVetor * sizeof(int));
 	if (vetor == NULL)
 	{
