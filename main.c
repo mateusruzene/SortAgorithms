@@ -32,7 +32,9 @@ int main()
 	clock_t start, end;
 	double total;
 
-	int tamVetor = 65000; /* se colocar um valor muito alto aqui, os números de comparação no terminal vão ficar negativos por estourarem o valor máximo permitido do int, 65000 foi o maior valor que eu encontrei sem deixar os números de comparações negativos */
+	int valor = 138; /* valor a ser encontrado nas buscas */
+	int tamVetor = 1000;
+	/* se colocar um valor muito alto aqui, os números de comparação no terminal vão ficar negativos por estourarem o valor máximo permitido do int, 65000 foi o maior valor que eu encontrei sem deixar os números de comparações negativos */
 	int *vetor = malloc(tamVetor * sizeof(int));
 	if (vetor == NULL)
 	{
@@ -44,17 +46,7 @@ int main()
 	printf("Trabalho de %s\n", nome);
 	printf("GRR %u\n\n", getGRR());
 
-	printf("\n--------Vetor Desordenado--------\n");
-	criaVetor(vetor, tamVetor);
-	/* Busca Sequencial Test */
-	numComp = 0;
-	idxBusca = buscaSequencial(vetor, tamVetor, 13455, &numComp);
-	printf("\nBusca Sequencial: \nindice do vetor = %d \nnumero de comparacoes = %d \n", idxBusca, numComp);
-
-	/* Busca Binária Test */
-	numComp = 0;
-	idxBusca = buscaBinaria(vetor, tamVetor, 13455, &numComp);
-	printf("\nBusca binaria: \nindice do vetor = %d \nnumero de comparacoes = %d \n", idxBusca, numComp);
+	printf("\n--------Algoritmos de ordenação--------\n");
 
 	/* Insertion Sort Test */
 	criaVetor(vetor, tamVetor);
@@ -89,17 +81,6 @@ int main()
 	printf("Numero total de comparações Merge Sort: %d \n", numComp);
 	printf("\n");
 
-	/* Quick Sort Test */
-	criaVetor(vetor, tamVetor);
-	numComp = 0;
-	start = clock();
-	numComp = quickSort(vetor, tamVetor);
-	end = clock();
-	total = ((double)end - start) / CLOCKS_PER_SEC;
-	printf("\nTempo total Quick Sort: %f \n", total);
-	printf("Numero total de comparações Quick Sort: %d \n", numComp);
-	printf("\n");
-
 	/* Heap Sort Test */
 	criaVetor(vetor, tamVetor);
 	numComp = 0;
@@ -111,14 +92,37 @@ int main()
 	printf("Numero total de comparações Heap Sort: %d \n", numComp);
 	printf("\n");
 
+	/* Quick Sort Test */
+	criaVetor(vetor, tamVetor);
+	numComp = 0;
+	start = clock();
+	numComp = quickSort(vetor, tamVetor);
+	end = clock();
+	total = ((double)end - start) / CLOCKS_PER_SEC;
+	printf("\nTempo total Quick Sort: %f \n", total);
+	printf("Numero total de comparações Quick Sort: %d \n", numComp);
+	printf("\n");
+
 	printf("\n-----------Vetor Ordenado---------\n");
 	/* Busca Sequencial Test */
 	numComp = 0;
-	idxBusca = buscaSequencial(vetor, tamVetor, 16, &numComp);
+	idxBusca = buscaSequencial(vetor, tamVetor, valor, &numComp);
 	printf("\nBusca Sequencial: \nindice do vetor = %d \nnumero de comparacoes = %d \n", idxBusca, numComp);
 	/* Busca Binária Test */
 	numComp = 0;
-	idxBusca = buscaBinaria(vetor, tamVetor, 16, &numComp);
+	idxBusca = buscaBinaria(vetor, tamVetor, valor, &numComp);
+	printf("\nBusca binaria: \nindice do vetor = %d \nnumero de comparacoes = %d \n", idxBusca, numComp);
+
+	printf("\n--------Vetor Desordenado--------\n");
+	criaVetor(vetor, tamVetor);
+	/* Busca Sequencial Test */
+	numComp = 0;
+	idxBusca = buscaSequencial(vetor, tamVetor, valor, &numComp);
+	printf("\nBusca Sequencial: \nindice do vetor = %d \nnumero de comparacoes = %d \n", idxBusca, numComp);
+
+	/* Busca Binária Test */
+	numComp = 0;
+	idxBusca = buscaBinaria(vetor, tamVetor, valor, &numComp);
 	printf("\nBusca binaria: \nindice do vetor = %d \nnumero de comparacoes = %d \n", idxBusca, numComp);
 
 	free(vetor);
